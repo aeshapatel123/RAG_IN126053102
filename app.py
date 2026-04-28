@@ -1,11 +1,10 @@
 # app.py
-if not os.path.exists("chroma_db"):
-    from ingest import ingest
-    ingest()
-
 import streamlit as st
 from graph import run_rag
 import os
+if not os.path.exists("chroma_db"):
+    from ingest import ingest
+    ingest()
 
 st.set_page_config(page_title="NexusAI Support", page_icon="✦", layout="centered")
 
