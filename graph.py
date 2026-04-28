@@ -29,7 +29,17 @@ from dotenv import load_dotenv
 load_dotenv()  # works locally
 
 # On Streamlit Cloud, secrets come from st.secrets
-GROQ_API_KEY = os.getenv("GROQ_API_KEY") or st.secrets.get("GROQ_API_KEY", "")
+def get_groq_key():
+    # Try Streamlit secrets first (Streamlit Cloud)
+    try:
+        return st.secrets["GROQ_API_KEY"]
+    except Exception:
+        pass
+    # Fall back to .env / environment variable (local)
+    return os.getenv("GROQ_API_KEY")
+
+GROQ_API_KEY = get_groq_key()
+
 llm = ChatGroq(
     model="llama-3.3-70b-versatile",
     temperature=0,
