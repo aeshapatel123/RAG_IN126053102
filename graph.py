@@ -13,6 +13,7 @@ Flow:
                                                                   → high → answer
 """
 
+
 import os
 import json
 import re
@@ -22,7 +23,18 @@ from langgraph.graph import StateGraph, END
 from langchain_groq import ChatGroq
 from langchain_core.messages import HumanMessage, SystemMessage
 from retriever import get_retriever
+import streamlit as st
+from dotenv import load_dotenv
 
+load_dotenv()  # works locally
+
+# On Streamlit Cloud, secrets come from st.secrets
+GROQ_API_KEY = os.getenv("GROQ_API_KEY") or st.secrets.get("GROQ_API_KEY", "")
+llm = ChatGroq(
+    model="llama-3.3-70b-versatile",
+    temperature=0,
+    api_key=GROQ_API_KEY,
+)
 load_dotenv()
 
 # ═══════════════════════════════════════════════════════════════
